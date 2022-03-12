@@ -1,5 +1,6 @@
 package com.techprimers.mybatis.springbootmybatis.resource;
 
+import com.techprimers.mybatis.springbootmybatis.mapper.UsersMapper;
 import com.techprimers.mybatis.springbootmybatis.model.Users;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +11,26 @@ import java.util.List;
 @RequestMapping("/rest/users")
 public class UsersResources {
 
+    private UsersMapper usersMapper;
+
+    public UsersResources(UsersMapper usersMapper) {
+        this.usersMapper = usersMapper;
+    }
+
     @GetMapping("all")
     public List<Users> getAll(){
-        return null;
+        return usersMapper.findAll();
+    }
+
+    @GetMapping("/update")
+    public List<Users> update(){
+        Users users = new Users();
+        users.setName("Youtube");
+        users.setSalary(2333L);
+
+        usersMapper.insert(users);
+
+        return usersMapper.findAll();
     }
 
 }
